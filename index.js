@@ -1,9 +1,10 @@
-import https from 'node:https';
+import * as cheerio from 'cheerio';
 import fs from 'fs';
+import fetch from 'node-fetch';
+import { parse } from 'path';
 
 // Given URL to access
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
-console.log(url);
 
 // Create directory
 const dir = 'memes';
@@ -13,18 +14,13 @@ if (!fs.existsSync(dir)) {
   console.log("Directory 'memes' created");
 }
 
-// Access URL
-https.get(url, (result) => {
-  console.log('Accessing website ... ');
-  let htmlOutput = '';
+const response = await fetch(url);
+const data = await response.text();
+const $ = cheerio.load(data);
 
-  result.on('data', (websiteResponse) => {
-    console.log('writing');
-    htmlOutput += websiteResponse;
-  });
-
-  result.on('end', () => {
-    console.log('finished');
-    //console.log(htmlOutput);
-  });
+const parseImg = $('div');
+parseImg.each((index, el) => {
+  const memes = {};
+  memes.img = $(el).find('a > img').attr('src');
+  console.log(memes.img);
 });

@@ -9,6 +9,10 @@ const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 // Create directory
 const dir = 'memes';
 
+// Prepare Memeobject
+const memeUrl = {};
+let memes = [];
+
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
   console.log("Directory 'memes' created");
@@ -20,7 +24,9 @@ const $ = cheerio.load(data);
 
 const parseImg = $('div');
 parseImg.each((index, el) => {
-  const memes = {};
-  memes.img = $(el).find('a > img').attr('src');
-  console.log(memes.img);
+  memes.push((memeUrl.img = $(el).find('a > img').attr('src')));
 });
+
+memes = memes.slice(3);
+memes.length = 10;
+console.log(memes);

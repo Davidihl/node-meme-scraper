@@ -29,7 +29,6 @@ if (!fs.existsSync(dir)) {
 // Decide if scrape images or create meme
 if (memeTemplate) {
   console.log('Create custom meme...');
-  console.log(process.argv);
 
   // Fetch and create file based on input (URL based)
   const customMeme =
@@ -39,13 +38,14 @@ if (memeTemplate) {
     memeTopText +
     '/' +
     memeBottomText;
-  console.log(customMeme);
+  console.log('Calling API ' + customMeme);
 
   // Call API to create meme
   await fetch(customMeme).then((res) =>
     res.body.pipe(
       fs.createWriteStream(
         `./memes/${memeTemplate}_${memeTopText}_${memeBottomText}.jpg`,
+        console.log('Done!'),
       ),
     ),
   );

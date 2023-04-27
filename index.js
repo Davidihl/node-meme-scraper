@@ -10,8 +10,9 @@ const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const dir = 'memes';
 
 // Prepare Userinput
-const memeText = process.argv[2];
-const memeType = process.argv[3];
+const memeTemplate = process.argv[2];
+const memeTopText = process.argv[3];
+const memeBottomText = process.argv[4];
 
 // Prepare required Objects & Arrays
 const memeUrl = {};
@@ -26,8 +27,14 @@ if (!fs.existsSync(dir)) {
 }
 
 // Decide if scrape images or create meme
-if (memeText && memeType) {
+if (memeTemplate) {
   console.log('Create personal meme');
+  console.log(memeTemplate);
+  console.log(memeTopText);
+  console.log(memeBottomText);
+
+  // Fetch and create file based on input (URL based)
+  g;
 } else {
   // Fetch Website html and extract images
   const response = await fetch(url);

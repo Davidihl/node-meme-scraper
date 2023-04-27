@@ -21,22 +21,37 @@ let memes = [];
 // Create Directory if it does not exist
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
-  console.log('Directory ' + dir + ' created');
+  console.log('Directory ' + dir + ' created!');
 } else {
-  console.log('Using existing directory');
+  console.log('Using existing directory...');
 }
 
 // Decide if scrape images or create meme
 if (memeTemplate) {
-  console.log('Create personal meme');
-  console.log(memeTemplate);
-  console.log(memeTopText);
-  console.log(memeBottomText);
+  console.log('Create custom meme...');
+  console.log(process.argv);
 
   // Fetch and create file based on input (URL based)
-  g;
+  const customMeme =
+    'https://api.memegen.link/images/' +
+    memeTemplate +
+    '/' +
+    memeTopText +
+    '/' +
+    memeBottomText;
+  console.log(customMeme);
+
+  // Call API to create meme
+  await fetch(customMeme).then((res) =>
+    res.body.pipe(
+      fs.createWriteStream(
+        `./memes/${memeTemplate}_${memeTopText}_${memeBottomText}.jpg`,
+      ),
+    ),
+  );
 } else {
   // Fetch Website html and extract images
+  console.log('Scraping images...');
   const response = await fetch(url);
   const data = await response.text();
   const $ = cheerio.load(data);
@@ -46,6 +61,9 @@ if (memeTemplate) {
     },
     cliProgress.Presets.shades_classic,
   );
+
+  // Start Progressbar
+  imageProgress.start(100, 0);
 
   const parseImg = $('div');
   parseImg.each((index, el) => {
@@ -57,9 +75,6 @@ if (memeTemplate) {
   memes.length = 10;
 
   const imagePath = memes.map((element) => element.replace('?width=300', ''));
-
-  // Start Progressbar
-  imageProgress.start(100, 0);
 
   // Create a jpg based of each element within the image array
   for (let i = 0; i < imagePath.length; i++) {

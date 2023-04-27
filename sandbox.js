@@ -23,4 +23,5 @@ const memesURL = memes.map((element) =>
   element.slice(6).replace('?width=300\\"\\n', ''),
 );
 
-console.log(memesURL[0]);
+const memeApi = await fetch('https://api.memegen.link/docs/openapi.json');
+console.log(memeApi);

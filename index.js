@@ -74,8 +74,7 @@ if (memeTemplate) {
   memes = memes.slice(3);
   memes.length = 10;
 
-  const imagePath = memes.map((element) => element.replace('', ''));
-
+  const imagePath = memes;
   // Create a jpg based of each element within the image array
   for (let i = 0; i < imagePath.length; i++) {
     // Consider a leading 0 for the filename until we reach 10

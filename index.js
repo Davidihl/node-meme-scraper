@@ -1,7 +1,6 @@
+import fs from 'node:fs';
 import * as cheerio from 'cheerio';
-import fs from 'fs';
 import fetch from 'node-fetch';
-import { parse } from 'path';
 
 // Define URL to access
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
@@ -9,7 +8,7 @@ const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 // Define directory name
 const dir = 'memes';
 
-// Prepare Memeobject & Array
+// Prepare required Objects & Arrays
 const memeUrl = {};
 let memes = [];
 
@@ -45,7 +44,7 @@ for (let i = 0; i < imagePath.length; i++) {
     filename = 0 + filename;
   }
 
-  fetch(imagePath[i]).then((res) =>
+  await fetch(imagePath[i]).then((res) =>
     res.body.pipe(fs.createWriteStream(`./memes/${filename}`)),
   );
 }

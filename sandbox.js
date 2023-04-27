@@ -1,7 +1,6 @@
-import * as cheerio from 'cheerio';
-import fs from 'fs';
 import fetch from 'node-fetch';
-import { parse } from 'path';
+
+// Sandbox for creating an array without using cheerio module
 
 // Given URL to access
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
@@ -20,11 +19,8 @@ const filtered = array.filter((element) => element.startsWith('src='));
 
 const memes = filtered.slice(1);
 memes.length = 10;
-const memesURL = memes.map((element) => element.slice(6));
+const memesURL = memes.map((element) =>
+  element.slice(6).replace('?width=300\\"\\n', ''),
+);
 
-console.log(memesURL);
-
-/*
-src=\\"
-?width=300\\"\\n
-*/
+console.log(memesURL[0]);
